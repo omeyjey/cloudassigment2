@@ -29,7 +29,6 @@ func setHandlers(r *mux.Router) {
 func main() {
 	startDataBase("127.0.0.1")
 	getRates()
-	invokeClient()
 
 	// New mux router
 	r := mux.NewRouter()
