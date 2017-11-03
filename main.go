@@ -36,7 +36,7 @@ func main() {
 	setHandlers(r)
 
 	fmt.Println("Server running on port 8080")
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":80", r)
 
 	// Start cron job
 	cron := cron.New()
