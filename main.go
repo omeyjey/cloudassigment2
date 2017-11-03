@@ -22,8 +22,8 @@ func setHandlers(r *mux.Router) {
 	r.HandleFunc("/exchange/latest", handlerLatest).Methods("POST")
 	r.HandleFunc("/exchange/average", handlerAverage).Methods("POST")
 	r.HandleFunc("/exchange/evaluationtrigger", handlerEvaluationTrigger).Methods("GET")
-	r.HandleFunc("/exchange/{id}", handlerAccessHook).Methods("GET")
-	r.HandleFunc("/exchange/{id}", handlerDeleteHook).Methods("DELETE")
+	r.HandleFunc("/exchange/id/{id}", handlerAccessHook).Methods("GET")
+	r.HandleFunc("/exchange/id/{id}", handlerDeleteHook).Methods("DELETE")
 }
 
 func main() {
