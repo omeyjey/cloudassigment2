@@ -17,12 +17,13 @@ var (
 
 func setHandlers(r *mux.Router) {
 	// Start http server
-	r.HandleFunc("/", handlerNewHook).Methods("POST")
-	r.HandleFunc("/latest", handlerLatest).Methods("POST")
-	r.HandleFunc("/average", handlerAverage).Methods("POST")
-	r.HandleFunc("/evaluationtrigger", handlerEvaluationTrigger).Methods("GET")
-	r.HandleFunc("/{id}", handlerAccessHook).Methods("GET")
-	r.HandleFunc("/{id}", handlerDeleteHook).Methods("DELETE")
+	r.HandleFunc("/", handler).Methods("GET")
+	r.HandleFunc("/exchange/", handlerNewHook).Methods("POST")
+	r.HandleFunc("/exchange/latest", handlerLatest).Methods("POST")
+	r.HandleFunc("/exchange/average", handlerAverage).Methods("POST")
+	r.HandleFunc("/exchange/evaluationtrigger", handlerEvaluationTrigger).Methods("GET")
+	r.HandleFunc("/exchange/{id}", handlerAccessHook).Methods("GET")
+	r.HandleFunc("/exchange/{id}", handlerDeleteHook).Methods("DELETE")
 }
 
 func main() {

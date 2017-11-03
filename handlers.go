@@ -9,6 +9,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "Hello world")
+}
 func handlerEvaluationTrigger(w http.ResponseWriter, r *http.Request) {
 	forceInvokeClient()
 }
