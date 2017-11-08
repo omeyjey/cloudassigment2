@@ -39,6 +39,7 @@ func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
 
 	if !bson.IsObjectIdHex(vars["id"]) {
 		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, "invalid ID")
 		return
 	}
 
