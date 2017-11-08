@@ -31,6 +31,8 @@ func handlerNewHook(w http.ResponseWriter, r *http.Request) {
 	ticket.ID = bson.NewObjectId()
 	insertData("tickets", ticket)
 	fmt.Fprintln(w, ticket.ID.Hex())
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("200 Ok"))
 }
 
 func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
@@ -43,6 +45,10 @@ func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
 
 	c := session.DB("CurrencyDB").C("tickets")
 	c.FindId(objectid).One(&ticket)
+
+	// if ticket.id == "" {
+	//
+	// }
 
 	resp, err := json.MarshalIndent(ticket, "", "   ")
 	if err != nil {
