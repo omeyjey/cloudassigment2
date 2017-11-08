@@ -27,8 +27,8 @@ func handlerNewHook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.WriteHeader(http.StatusOK)
 	defer r.Body.Close()
-
 	ticket.ID = bson.NewObjectId()
 	insertData("tickets", ticket)
 	fmt.Fprintln(w, ticket.ID.Hex())
@@ -45,15 +45,14 @@ func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
 	c := session.DB("CurrencyDB").C("tickets")
 	c.FindId(objectid).One(&ticket)
 
-	// if ticket.id == "" {
-	//
-	// }
-
 	resp, err := json.MarshalIndent(ticket, "", "   ")
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintln(w, err)
+		return
 	}
 
+	w.WriteHeader(http.StatusOK)
 	fmt.Fprint(w, string(resp))
 }
 
@@ -75,8 +74,12 @@ func handlerLatest(w http.ResponseWriter, r *http.Request) {
 
 	err := decoder.Decode(&ticket)
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintln(w, err)
+		return
 	}
+
+	w.WriteHeader(http.StatusOK)
 
 	defer r.Body.Close()
 
@@ -94,8 +97,12 @@ func handlerAverage(w http.ResponseWriter, r *http.Request) {
 	var avg float64
 	err := decoder.Decode(&ticket)
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprintln(w, err)
+		return
 	}
+
+	w.WriteHeader(http.StatusOK)
 
 	defer r.Body.Close()
 
