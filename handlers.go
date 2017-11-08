@@ -19,7 +19,7 @@ func handlerNewHook(w http.ResponseWriter, r *http.Request) {
 
 	err := decoder.Decode(&ticket)
 	if err != nil {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintln(w, err)
 		return
 	}
@@ -46,11 +46,11 @@ func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		fmt.Fprintln(w, err)
-		return
+	} else {
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, string(resp))
 	}
 
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, string(resp))
 }
 
 func handlerDeleteHook(w http.ResponseWriter, r *http.Request) {
