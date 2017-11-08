@@ -38,7 +38,7 @@ func insertData(collection string, data interface{}) {
 	// Insert Datas
 	err := c.Insert(data)
 	if err != nil {
-		panic(err)
+		return
 	}
 }
 
