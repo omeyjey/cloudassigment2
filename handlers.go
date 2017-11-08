@@ -32,10 +32,15 @@ func handlerNewHook(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
 	w.Header().Set("Content-Type", "application/json")
 
+	vars := mux.Vars(r)
 	var ticket Ticket
+
+	if !bson.IsObjectIdHex(vars["id"]) {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	objectid := bson.ObjectIdHex(vars["id"])
 
