@@ -38,14 +38,12 @@ func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
 	var ticket Ticket
 
 	if !bson.IsObjectIdHex(vars["id"]) {
-		w.WriteHeader(69)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	objectid := bson.ObjectIdHex(vars["id"])
-
 	c := session.DB("CurrencyDB").C("tickets")
-	c.FindId(objectid).One(&ticket)
+	c.FindId(bson.ObjectIdHex(vars["id"])).One(&ticket)
 
 	resp, err := json.MarshalIndent(ticket, "", "   ")
 	if err != nil {

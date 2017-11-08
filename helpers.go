@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	mgo "gopkg.in/mgo.v2"
@@ -13,19 +14,19 @@ func startDataBase(url string) {
 	var err error
 	session, err = mgo.Dial(url)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 
 func fetchRates(url string) []byte {
 	resp, err := http.Get(url)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	body, readErr := ioutil.ReadAll(resp.Body)
 	if readErr != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	resp.Body.Close()
 
@@ -48,7 +49,7 @@ func getRates() {
 
 	jsonError := json.Unmarshal(body, &data)
 	if jsonError != nil {
-		panic(jsonError)
+		log.Fatal(jsonError)
 	}
 
 	insertData("rates", data)
@@ -61,7 +62,7 @@ func updateRates() {
 
 	jsonError := json.Unmarshal(body, &data)
 	if jsonError != nil {
-		panic(jsonError)
+		log.Fatal(jsonError)
 	}
 
 	insertData("rates", data)
@@ -82,7 +83,7 @@ func notifyClient(t Ticket, r CurrencyData) {
 
 	body, err := json.MarshalIndent(invoke, "", "   ")
 	if err != nil {
-		panic(nil)
+		log.Fatal(err)
 	}
 
 	http.Post(t.URL, "application/x-wwww-form-urlencoded", bytes.NewBuffer(body))
