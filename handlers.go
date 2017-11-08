@@ -38,8 +38,7 @@ func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
 	var ticket Ticket
 
 	if !bson.IsObjectIdHex(vars["id"]) {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprint(w, "invalid ID")
+		w.WriteHeader(http.StatusOK)
 		return
 	}
 
