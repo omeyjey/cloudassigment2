@@ -18,12 +18,13 @@ func handlerEvaluationTrigger(w http.ResponseWriter, r *http.Request) {
 
 func handlerNewHook(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
-
 	var ticket Ticket
 
 	err := decoder.Decode(&ticket)
 	if err != nil {
-		panic(err)
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		fmt.Fprintln(w, err)
+		return
 	}
 
 	defer r.Body.Close()
@@ -31,8 +32,6 @@ func handlerNewHook(w http.ResponseWriter, r *http.Request) {
 	ticket.ID = bson.NewObjectId()
 	insertData("tickets", ticket)
 	fmt.Fprintln(w, ticket.ID.Hex())
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("200 Ok"))
 }
 
 func handlerAccessHook(w http.ResponseWriter, r *http.Request) {
